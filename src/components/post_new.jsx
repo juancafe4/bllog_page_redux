@@ -1,34 +1,41 @@
 import React, { Component } from 'react';
-import { reduxForm } from 'redux-form';
+import { Field, reduxForm } from 'redux-form';
+import { connect} from 'react-redux';
+import { createPost } from '../actions/index';
 
-export default class PostNew extends Component {
-  render() {
+let PostNew = (props) =>  {
+    const { handleSubmit } = props;
+    console.log(props.createPost)
     return (
-      <form>
+      <form onSubmit={handleSubmit(props.createPost)}>
         <h3>Create a New Post</h3>
         <div className="form-group">
           <label>Title</label>
-          <input type="text" className="form-control"/>
+          <Field name="title" component="input" type="text" className="form-control"/>
         </div>
 
         <div className="form-group">
           <label>Categories</label>
-          <input type="text" className="form-control"/>
+          <Field name="categories" component="input" type="text" className="form-control"/>
         </div>
 
         <div className="form-group">
           <label>Content</label>
-          <textarea type="text" className="form-control"/>
+          <Field name="content" component="textarea" type="text" className="form-control"/>
         </div>
 
         <button type="submit" className="button button-primary">Submit</button>
       </form>
     );
-  }
+  
 }
 
+// connect first argument is mapStateToProps second mapDispatchToProps
+// reduxForm1st is from config  2nd is mapStateToProps 3rd mapDispatchToProps 
 
-export default reduxForm({
-  form: 'PostNewForm',
-  fields: ['title', 'categories', 'content'], 
+
+PostNew = reduxForm({
+  form: 'initializeFromState',
 })(PostNew);
+
+export default connect(null, { createPost })(PostNew);
