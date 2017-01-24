@@ -50,6 +50,10 @@ const validate = values =>  {
   const error = {};
   if (!values.title)
     error.title = 'Enter a username';
+  if (!values.categories)
+    error.categories = 'Enter categories';
+  if (!values.content)
+    error.content = 'Enter some content';
   return error;
 }
 
