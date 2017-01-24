@@ -9,7 +9,7 @@ class PostsIndex extends Component {
     console.log('This is a good time to call on an action creator to fetch posts')
     this.props.fetchPosts();
   }
-
+ 
   renderPosts() {
     return this.props.posts.map((post) => {
       return (
