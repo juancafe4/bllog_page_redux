@@ -3,43 +3,38 @@ import { Field, reduxForm } from 'redux-form';
 import { connect} from 'react-redux';
 import { createPost } from '../actions/index';
 
-const renderInput = ({meta: { touched, error} }) => (
-  <div>
-    <input className="form-control" type="text"/>
-    <div>
-      {touched && (error && <span>{error}</span>)}
-    </div>
-  </div>
-)
-const renderTextArea = ({meta: { touched, error} }) => (
-  <div>
-    <textarea className="form-control" type="text"/>
-    <div>
-      {touched && (error && <span>{error}</span>)}
-    </div>
-  </div>
-)
+
+const renderInput = ({ input, label, type, meta: { touched, error, invalid } }) => {
+  return (
+    <div className={`form-group ${touched && invalid ? 'has-danger' : ''}`}>
+      <label>{label}</label>
+      <input className="form-control" {...input} placeholder={label} type={type}/>
+      <div className="text-help">
+        {touched ? error : ''}
+      </div>
+   </div> 
+  );
+};
+const renderTextArea = ({ input, label, type, meta: { touched, error, invalid } }) => {
+  return (
+    <div className={`form-group ${touched && invalid ? 'has-danger' : ''}`}>
+      <label>{label}</label>
+      <textarea className="form-control" {...input} placeholder={label} type={type}/>
+      <div className="text-help">
+        {touched ? error : ''}
+      </div>
+   </div> 
+  );
+};
 let PostNew = (props) =>  {
     const { handleSubmit } = props;
   
     return (
       <form onSubmit={handleSubmit(props.createPost)}>
         <h3>Create a New Post</h3>
-        <div className="form-group">
-          <label>Title</label>
-          <Field name="title" component={renderInput} type="text" className="form-control"/>
-        </div>
-
-        <div className="form-group">
-          <label>Categories</label>
-          <Field name="categories" component={renderInput} type="text" className="form-control"/>
-        </div>
-
-        <div className="form-group">
-          <label>Content</label>
-          <Field name="content" component={renderTextArea} type="text" className="form-control"/>
-        </div>
-
+          <Field label="Title" name="title" component={renderInput} />
+          <Field label="Categories" name="categories" component={renderInput } className="form-control"/>
+          <Field label="Content" name="content" component={renderTextArea} />
         <button type="submit" className="btn btn-primary">Submit</button>
       </form>
     );
